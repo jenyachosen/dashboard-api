@@ -9,7 +9,7 @@ import { IUserController } from './users.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
 import { User } from './user.entity';
-import { UserService } from './user.service';
+import { UserService } from './users.service';
 import { ValidateMiddleware } from '../common/validate.middleware';
 
 const data = [];
@@ -48,8 +48,8 @@ export class UserController extends BaseController implements IUserController {
   ): Promise<void> {
     const result = await this.userService.createUser(body);
     if (!result) {
-      return next(new HTTPError(422, 'This user alredy exist'));
+      return next(new HTTPError(422, 'This user is already exist'));
     }
-    this.ok(res, { email: result.email });
+    this.ok(res, { email: result.email, id: result.id });
   }
 }
